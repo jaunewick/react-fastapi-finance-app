@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-python-dotenv = "*"
 fastapi = {extras = ["standard"], version = "*"}
 sqlalchemy = "*"
 
