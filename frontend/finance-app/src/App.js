@@ -8,7 +8,7 @@ const App = () => {
     amount: '',
     category: '',
     description: '',
-    is_income: '',
+    is_income: false,
     date: '',
   })
 
@@ -31,13 +31,15 @@ const App = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault()
+    console.log(formData);
+    
     await api.post('/transactions', formData)
     fetchTransactions()
     setFormData({
       amount: '',
       category: '',
       description: '',
-      is_income: '',
+      is_income: false,
       date: '',
     })
   }
@@ -54,13 +56,12 @@ const App = () => {
           <div className="mb-3 mt-3">
             <label htmlFor="amount" className='form-label'>Amount</label>
             <input
-              type="text"
+              type="Number"
               className='form-control'
               id='amount'
               name='amount'
               onChange={handleInputChange}
               value={formData.amount}
-              placeholder='e.g., 100,00'
             />
           </div>
           <div className="mb-3">
@@ -72,7 +73,6 @@ const App = () => {
               name='category'
               onChange={handleInputChange}
               value={formData.category}
-              placeholder='e.g., Clothing'
             />
           </div>
           <div className="mb-3">
@@ -84,7 +84,6 @@ const App = () => {
               name='description'
               onChange={handleInputChange}
               value={formData.description}
-              placeholder='e.g., T-shirt'
             />
           </div>
           <div className="mb-3">
@@ -106,11 +105,32 @@ const App = () => {
               name='date'
               onChange={handleInputChange}
               value={formData.date}
-              placeholder='e.g. 25-08-2024'
             />
           </div>
-          <button type='submit' className="btn btn-primary">Submit</button>
+          <button type='submit' className="btn btn-primary mb-3">Submit</button>
         </form>
+        <table className='table table-stripe table-bordered table-hover'>
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Income?</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions && transactions.map(t => (
+              <tr key={t.id}>
+                <td>{t.amount}</td>
+                <td>{t.category}</td>
+                <td>{t.description}</td>
+                <td>{t.is_income ? 'Yes' : 'No'}</td>
+                <td>{t.data}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )
